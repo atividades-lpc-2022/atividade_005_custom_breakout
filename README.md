@@ -71,7 +71,7 @@ Before contributing, pay attention to some rules:
 
 ## License 📝 
 
-This project is under MIT license.
+This project is under [MIT license](https://github.com/atividades-lpc-2022/atividade_005_custom_breakout/blob/main/LICENSE).
 
 ## Contributors 🤝
 
