@@ -1,25 +1,9 @@
 import pygame
 from Ball import Ball
-#from Brick import Block
-#from Brick import Block2
-#from Brick import Block3
-#from Brick import Block4
-#from Brick import Block5
-#from Brick import Block6
-#from Brick import Block7
-#from Brick import Block8
-#from Brick import Block9
-#from Brick import Block10
-#from Brick import Block11
-#from Brick import Block12
-#from Brick import Block13
-#from Brick import Block14
-#from Brick import Block15
-#from Brick import Block16
-#from Brick import Block17
-#from Brick import Block18
-#from Brick import Block19
-#from Brick import Block20
+from Brick import group_Block1,group_Block2,group_Block3,group_Block4,group_Block5
+from Brick import group_Block6,group_Block7,group_Block8,group_Block9,group_Block10
+from Brick import group_Block11, group_Block12, group_Block13, group_Block14, group_Block15
+from Brick import group_Block16,group_Block17,group_Block18,group_Block19,group_Block20
 
 pygame.init()
 
@@ -77,6 +61,8 @@ class Left_object(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(125,620))
 group_objects.add(Left_object())
 
+
+
 vidas = 3
 pontos = 0
 main = True
@@ -98,7 +84,27 @@ while main:
     screen.blit(text_format,(230,20))
     screen.blit(text_format2,(230, 55))
     
-    group_Block.draw(screen)
+    group_Block1.draw(screen)
+    group_Block2.draw(screen)
+    group_Block3.draw(screen)
+    group_Block4.draw(screen)
+    group_Block5.draw(screen)
+    group_Block6.draw(screen)
+    group_Block7.draw(screen)
+    group_Block8.draw(screen)
+    group_Block9.draw(screen)
+    group_Block10.draw(screen)
+    group_Block11.draw(screen)
+    group_Block12.draw(screen)
+    group_Block13.draw(screen)
+    group_Block14.draw(screen)
+    group_Block15.draw(screen)
+    group_Block16.draw(screen)
+    group_Block17.draw(screen)
+    group_Block18.draw(screen)
+    group_Block19.draw(screen)
+    group_Block20.draw(screen)
+
     group_objects.draw(screen)
 
     pygame.display.update()
