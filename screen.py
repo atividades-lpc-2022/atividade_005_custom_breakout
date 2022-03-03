@@ -24,6 +24,8 @@ class Screen:
     ball: Ball
     right_paddle: RightPaddle
     left_paddle: LeftPaddle
+    right_object: RightObject
+    left_object : LeftObject
     lifes = int
     score = 0
 
@@ -39,8 +41,10 @@ class Screen:
         self.all_sprites_group.add(self.left_paddle)
         self.all_sprites_group.add(RightTriangle())
         self.all_sprites_group.add(LeftTriangle())
-        self.all_sprites_group.add(RightObject())
-        self.all_sprites_group.add(LeftObject())
+        self.right_object = RightObject()
+        self.all_sprites_group.add(self.right_object)
+        self.left_object = LeftObject()
+        self.all_sprites_group.add(self.left_object)
         self.bricks_group = pygame.sprite.Group()
         self.add_bricks()
         self.ball = Ball()
@@ -53,16 +57,24 @@ class Screen:
         pos_y = 200
         for i in range(4):
             for j in range(5):
-                self.bricks_group.add(Brick(pos_x, pos_y))
-                self.all_sprites_group.add(Brick(pos_x, pos_y))
+                brick = Brick(pos_x, pos_y)
+                self.bricks_group.add(brick)
+                self.all_sprites_group.add(brick)
                 pos_x += 70
             pos_x = 160
             pos_y += 50
 
     def update(self):
         self.surface.blit(self.wallpaper, (0, 0))
+        self.ball.collide_with_screen(self.width, self.height)
+        self.ball.collide_with_right_paddle(self.right_paddle)
+        self.ball.collide_with_left_paddle(self.left_paddle)
+        self.ball.collide_with_right_object(self.right_object)
+        self.ball.collide_with_left_object(self.left_object)
+        brick_collision_list = pygame.sprite.spritecollide(self.ball, self.bricks_group, False)
+        self.ball.collide_with_brick(brick_collision_list)
+        self.all_sprites_group.update()
         self.all_sprites_group.draw(self.surface)
-
         (score_text, lifes_text) = update_hud(self.lifes, self.score)
         self.surface.blit(score_text, (SCORE_TEXT_POS_X, SCORE_TEXT_POS_Y))
         self.surface.blit(lifes_text, (LIFES_TEXT_POS_X, LIFES_TEXT_POS_Y))

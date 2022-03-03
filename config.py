@@ -1,6 +1,8 @@
 # CONSTANTS
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 800
+INITIAL_BALL_X_POS = 300
+INITIAL_BALL_Y_POS = 400
 GAME_LIFES = 3
 SCREEN_WALLPAPER = 'sprites/wallpapper.png'
 RIGHT_PADDLE_SPRITE = './sprites/rightpaddle.png'
@@ -9,7 +11,7 @@ RIGHT_TRIANGLE_SPRITE = './sprites/righttriangle.png'
 LEFT_TRIANGLE_SPRITE = './sprites/lefttriangle.png'
 RIGHT_OBJECT_SPRITE = './sprites/rightobject.png'
 LEFT_OBJECT_SPRITE = './sprites/leftobject.png'
-BRICK_SPRITE = './sprites/block.png'
+BRICK_SPRITE = './sprites/brick.png'
 BALL_SPRITE = './sprites/ball.png'
 FONT = 'font/Gamer.ttf'
 SCORE_TEXT_POS_X = 230
