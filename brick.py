@@ -1,7 +1,8 @@
+from ball import Ball
 from config import BRICK_SPRITE
 import pygame
 
-'''group_Block1 = pygame.sprite.Group()
+"""group_Block1 = pygame.sprite.Group()
 class Block(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -161,7 +162,8 @@ class Block20(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(440,350))
 group_Block20.add(Block20())
 
-group_Block = pygame.sprite.Group()'''
+group_Block = pygame.sprite.Group()"""
+
 
 class Brick(pygame.sprite.Sprite):
     pos_x: int

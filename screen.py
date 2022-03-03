@@ -6,14 +6,20 @@ from left_triangle import LeftTriangle
 from right_object import RightObject
 from left_object import LeftObject
 from brick import Brick
-from config import FONT, SCORE_TEXT_POS_X, SCORE_TEXT_POS_Y, LIFES_TEXT_POS_X, LIFES_TEXT_POS_Y
+from config import (
+    FONT,
+    SCORE_TEXT_POS_X,
+    SCORE_TEXT_POS_Y,
+    LIFES_TEXT_POS_X,
+    LIFES_TEXT_POS_Y,
+)
 import pygame
 
 
 def update_hud(lifes, score):
     font = pygame.font.Font(FONT, 60)
-    score_text = font.render(f'Score: {score}', True, (255, 255, 255))
-    lifes_text = font.render(f'Lifes: {lifes}', True, (255, 255, 255))
+    score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+    lifes_text = font.render(f"Lifes: {lifes}", True, (255, 255, 255))
     return score_text, lifes_text
 
 
@@ -24,6 +30,10 @@ class Screen:
     ball: Ball
     right_paddle: RightPaddle
     left_paddle: LeftPaddle
+    left_triangle: LeftTriangle
+    right_triangle: RightTriangle
+    left_object: LeftObject
+    right_object: RightObject
     lifes = int
     score = 0
 
@@ -37,10 +47,14 @@ class Screen:
         self.all_sprites_group.add(self.right_paddle)
         self.left_paddle = LeftPaddle()
         self.all_sprites_group.add(self.left_paddle)
-        self.all_sprites_group.add(RightTriangle())
-        self.all_sprites_group.add(LeftTriangle())
-        self.all_sprites_group.add(RightObject())
-        self.all_sprites_group.add(LeftObject())
+        self.right_triangle = RightTriangle()
+        self.all_sprites_group.add(self.right_triangle)
+        self.left_triangle = LeftTriangle()
+        self.all_sprites_group.add(self.left_triangle)
+        self.right_object = RightObject()
+        self.all_sprites_group.add(self.right_object)
+        self.left_object = LeftObject()
+        self.all_sprites_group.add(self.left_object)
         self.bricks_group = pygame.sprite.Group()
         self.add_bricks()
         self.ball = Ball()
@@ -62,6 +76,17 @@ class Screen:
     def update(self):
         self.surface.blit(self.wallpaper, (0, 0))
         self.all_sprites_group.draw(self.surface)
+
+        self.ball.update()
+
+        # Add ball's collisions
+        for brick in self.bricks_group:
+            is_colliding = pygame.sprite.collide_rect(brick, self.ball)
+            if is_colliding:
+                self.ball.y_velocity *= -1
+                brick.kill()
+
+        self.ball.is_colliding_with_screen(self.width, self.height)
 
         (score_text, lifes_text) = update_hud(self.lifes, self.score)
         self.surface.blit(score_text, (SCORE_TEXT_POS_X, SCORE_TEXT_POS_Y))

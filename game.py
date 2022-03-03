@@ -6,7 +6,9 @@ import sys
 
 def run():
     clock = pygame.time.Clock()
-    screen = Screen(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WALLPAPER, SCREEN_CAPTION, GAME_LIFES)
+    screen = Screen(
+        SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WALLPAPER, SCREEN_CAPTION, GAME_LIFES
+    )
 
     while True:
         for event in pygame.event.get():
