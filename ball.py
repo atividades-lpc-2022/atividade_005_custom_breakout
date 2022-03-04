@@ -57,3 +57,15 @@ class Ball(pygame.sprite.Sprite):
             self.rect.x -= self.x_velocity
             self.rect.y -= self.y_velocity
             self.bounce()
+
+    def collide_with_right_triangle(self, right_triangle):
+        if pygame.sprite.collide_mask(self, right_triangle):
+            self.rect.x -= self.x_velocity
+            self.rect.y -= self.y_velocity
+            self.bounce()
+
+    def collide_with_left_triangle(self, left_triangle):
+        if pygame.sprite.collide_mask(self, left_triangle):
+            self.rect.x -= self.x_velocity
+            self.rect.y -= self.y_velocity
+            self.bounce()

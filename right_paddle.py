@@ -3,7 +3,7 @@ import pygame
 
 
 class RightPaddle(pygame.sprite.Sprite):
-    pos_x = 375
+    pos_x = 400
     pos_y = 699
 
     def __init__(self):

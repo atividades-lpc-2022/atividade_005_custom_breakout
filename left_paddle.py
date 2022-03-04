@@ -3,7 +3,7 @@ import pygame
 
 
 class LeftPaddle(pygame.sprite.Sprite):
-    pos_x = 225
+    pos_x = 200
     pos_y = 699
 
     def __init__(self):

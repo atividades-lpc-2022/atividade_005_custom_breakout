@@ -3,8 +3,8 @@ import pygame
 
 
 class LeftTriangle(pygame.sprite.Sprite):
-    pos_x = 80
-    pos_y = 730
+    pos_x = 50
+    pos_y = 665
 
     def __init__(self):
         super().__init__()

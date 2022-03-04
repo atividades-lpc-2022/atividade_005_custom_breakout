@@ -6,7 +6,7 @@ from left_triangle import LeftTriangle
 from right_object import RightObject
 from left_object import LeftObject
 from brick import Brick
-from config import FONT, SCORE_TEXT_POS_X, SCORE_TEXT_POS_Y, LIFES_TEXT_POS_X, LIFES_TEXT_POS_Y
+from config import *
 import pygame
 
 
@@ -25,7 +25,9 @@ class Screen:
     right_paddle: RightPaddle
     left_paddle: LeftPaddle
     right_object: RightObject
-    left_object : LeftObject
+    left_object: LeftObject
+    right_triangle: RightTriangle
+    left_triangle: LeftTriangle
     lifes = int
     score = 0
 
@@ -39,12 +41,14 @@ class Screen:
         self.all_sprites_group.add(self.right_paddle)
         self.left_paddle = LeftPaddle()
         self.all_sprites_group.add(self.left_paddle)
-        self.all_sprites_group.add(RightTriangle())
-        self.all_sprites_group.add(LeftTriangle())
-        self.right_object = RightObject()
-        self.all_sprites_group.add(self.right_object)
-        self.left_object = LeftObject()
-        self.all_sprites_group.add(self.left_object)
+        self.right_triangle = RightTriangle()
+        self.all_sprites_group.add(self.right_triangle)
+        self.left_triangle = LeftTriangle()
+        self.all_sprites_group.add(self.left_triangle)
+        #self.right_object = RightObject()
+        #self.all_sprites_group.add(self.right_object)
+        #self.left_object = LeftObject()
+        #self.all_sprites_group.add(self.left_object)
         self.bricks_group = pygame.sprite.Group()
         self.add_bricks()
         self.ball = Ball()
@@ -53,11 +57,12 @@ class Screen:
         pygame.display.set_caption(caption)
 
     def add_bricks(self):
+        images_list = [RED_BRICK_SPRITE, BLUE_BRICK_SPRITE, GREEN_BRICK_SPRITE, YELLOW_BRICK_SPRITE]
         pos_x = 160
         pos_y = 200
         for i in range(4):
             for j in range(5):
-                brick = Brick(pos_x, pos_y)
+                brick = Brick(pos_x, pos_y, images_list[i])
                 self.bricks_group.add(brick)
                 self.all_sprites_group.add(brick)
                 pos_x += 70
@@ -69,8 +74,10 @@ class Screen:
         self.ball.collide_with_screen(self.width, self.height)
         self.ball.collide_with_right_paddle(self.right_paddle)
         self.ball.collide_with_left_paddle(self.left_paddle)
-        self.ball.collide_with_right_object(self.right_object)
-        self.ball.collide_with_left_object(self.left_object)
+        #self.ball.collide_with_right_object(self.right_object)
+        #self.ball.collide_with_left_object(self.left_object)
+        self.ball.collide_with_right_triangle(self.right_triangle)
+        self.ball.collide_with_left_triangle(self.left_triangle)
         brick_collision_list = pygame.sprite.spritecollide(self.ball, self.bricks_group, False)
         self.ball.collide_with_brick(brick_collision_list)
         self.all_sprites_group.update()
