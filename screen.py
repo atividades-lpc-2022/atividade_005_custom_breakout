@@ -10,19 +10,43 @@ from config import *
 import pygame
 
 score = 0
-lifes = 3
+lifes = GAME_LIFES
+start = False
+game_over = False
 
 
-def update_hud():
+def update_hud(screen_surface, screen_width, screen_height, game_over_sound, win_game_sound):
     global score, lifes
     font = pygame.font.Font(FONT, 60)
     score_text = font.render(f'Score: {score}', True, (255, 255, 255))
     lifes_text = font.render(f'Lifes: {lifes}', True, (255, 255, 255))
-    return score_text, lifes_text
+    msg_to_player_text = font.render('', True, (255, 255, 255))
+    if lifes == 0:
+        font = pygame.font.Font(FONT, 100)
+        msg_to_player_text = font.render('YOU LOSE!', True, (255, 255, 255))
+        screen_surface.blit(msg_to_player_text, (155, 30))
+        pygame.display.update()
+        game_over_sound.play()
+        pygame.time.wait(2000)
+        return True
+    if score == 128:
+        font = pygame.font.Font(FONT, 100)
+        msg_to_player_text = font.render('YOU WON!', True, (255, 255, 255))
+        screen_surface.blit(msg_to_player_text, (155, 30))
+        pygame.display.update()
+        win_game_sound.play()
+        pygame.time.wait(2000)
+        return True
+    screen_surface.blit(score_text, (SCORE_TEXT_POS_X, SCORE_TEXT_POS_Y))
+    screen_surface.blit(lifes_text, (LIFES_TEXT_POS_X, LIFES_TEXT_POS_Y))
+    screen_surface.blit(msg_to_player_text, (screen_width / 2, screen_height / 2))
+    pygame.display.update()
+    return False
 
 
 class Screen:
-    def __init__(self, width, height, wallpaper, caption, lifes):
+    def __init__(self, width, height, wallpaper, caption, brick_collision_sound, paddles_collision_sound,
+                 walls_and_triangles_collision_sound, game_over_sound, win_game_sound):
         self.width = width
         self.height = height
         self.surface = pygame.display.set_mode((width, height))
@@ -45,6 +69,11 @@ class Screen:
         self.ball = Ball()
         self.all_sprites_group.add(self.ball)
         self.lifes = lifes
+        self.brick_collision_sound = brick_collision_sound
+        self.paddles_collision_sound = paddles_collision_sound
+        self.walls_and_triangles_collision_sound = walls_and_triangles_collision_sound
+        self.game_over_sound = game_over_sound
+        self.win_game_sound = win_game_sound
         pygame.display.set_caption(caption)
 
     def add_bricks(self):
@@ -61,19 +90,20 @@ class Screen:
             pos_y += 50
 
     def update(self):
-        global score
+        global score, lifes, game_over
+
         self.surface.blit(self.wallpaper, (0, 0))
-        self.ball.collide_with_screen(self.width, self.height)
-        self.ball.collide_with_right_paddle(self.right_paddle)
-        self.ball.collide_with_left_paddle(self.left_paddle)
-        self.ball.collide_with_right_object(self.right_object)
-        self.ball.collide_with_left_object(self.left_object)
-        self.ball.collide_with_right_triangle(self.right_triangle)
-        self.ball.collide_with_left_triangle(self.left_triangle)
+        lifes = self.ball.collide_with_screen(self.width, self.height, self.walls_and_triangles_collision_sound, lifes)
+        self.ball.collide_with_right_paddle(self.right_paddle, self.paddles_collision_sound)
+        self.ball.collide_with_left_paddle(self.left_paddle, self.paddles_collision_sound)
+        self.ball.collide_with_right_object(self.right_object, self.walls_and_triangles_collision_sound)
+        self.ball.collide_with_left_object(self.left_object, self.walls_and_triangles_collision_sound)
+        self.ball.collide_with_right_triangle(self.right_triangle, self.walls_and_triangles_collision_sound)
+        self.ball.collide_with_left_triangle(self.left_triangle, self.walls_and_triangles_collision_sound)
         brick_collision_list = pygame.sprite.spritecollide(self.ball, self.bricks_group, False)
-        score = self.ball.collide_with_brick(brick_collision_list, score)
+        score = self.ball.collide_with_brick(brick_collision_list, score, self.brick_collision_sound)
         self.all_sprites_group.update()
         self.all_sprites_group.draw(self.surface)
-        (score_text, lifes_text) = update_hud()
-        self.surface.blit(score_text, (SCORE_TEXT_POS_X, SCORE_TEXT_POS_Y))
-        self.surface.blit(lifes_text, (LIFES_TEXT_POS_X, LIFES_TEXT_POS_Y))
+        game_over = update_hud(self.surface, self.width, self.height, self.game_over_sound, self.win_game_sound)
+        pygame.display.update()
+        return game_over
