@@ -94,6 +94,17 @@ class Screen:
 
         self.surface.blit(self.wallpaper, (0, 0))
         lifes = self.ball.collide_with_screen(self.width, self.height, self.walls_and_triangles_collision_sound, lifes)
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            self.left_paddle.paddle_up()
+        else:
+            self.left_paddle.paddle_down()
+        if keys[pygame.K_d]:
+            self.right_paddle.paddle_up()
+        else:
+            self.right_paddle.paddle_down()
+
         self.ball.collide_with_right_paddle(self.right_paddle, self.paddles_collision_sound)
         self.ball.collide_with_left_paddle(self.left_paddle, self.paddles_collision_sound)
         self.ball.collide_with_right_object(self.right_object, self.walls_and_triangles_collision_sound)

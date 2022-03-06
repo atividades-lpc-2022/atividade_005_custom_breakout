@@ -7,6 +7,7 @@ import sys
 
 is_playing = False
 
+
 def listen_global_events():
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -16,6 +17,7 @@ def listen_global_events():
             pygame.quit()
             sys.exit()
 
+
 def run(brick_collision_sound, paddles_collision_sound, walls_and_triangles_collision_sound, game_over_sound,
         win_game_sound):
     global is_playing
@@ -24,7 +26,6 @@ def run(brick_collision_sound, paddles_collision_sound, walls_and_triangles_coll
 
     start_screen = StartScren(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WALLPAPER)
     clock = pygame.time.Clock()
-
 
     while not is_playing:
         listen_global_events()
