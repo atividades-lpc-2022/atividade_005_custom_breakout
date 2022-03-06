@@ -58,15 +58,15 @@ class Screen:
 
     def add_bricks(self):
         images_list = [RED_BRICK_SPRITE, BLUE_BRICK_SPRITE, GREEN_BRICK_SPRITE, YELLOW_BRICK_SPRITE]
-        pos_x = 160
-        pos_y = 200
+        pos_x = 30
+        pos_y = 150
         for i in range(4):
-            for j in range(5):
+            for j in range(8):
                 brick = Brick(pos_x, pos_y, images_list[i])
                 self.bricks_group.add(brick)
                 self.all_sprites_group.add(brick)
-                pos_x += 70
-            pos_x = 160
+                pos_x += 77
+            pos_x = 30
             pos_y += 50
 
     def update(self):
