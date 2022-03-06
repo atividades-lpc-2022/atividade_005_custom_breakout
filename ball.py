@@ -29,10 +29,12 @@ class Ball(pygame.sprite.Sprite):
             self.rect.y = INITIAL_BALL_Y_POS
             self.y_velocity = 6
 
-    def collide_with_brick(self, brick_collision_list):
+    def collide_with_brick(self, brick_collision_list, current_score):
         for brick in brick_collision_list:
+            current_score += brick.value
             self.bounce()
             brick.kill()
+        return current_score
 
     def collide_with_right_paddle(self, right_paddle):
         if pygame.sprite.collide_mask(self, right_paddle):

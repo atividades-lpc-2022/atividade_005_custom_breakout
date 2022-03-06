@@ -9,8 +9,12 @@ from brick import Brick
 from config import *
 import pygame
 
+score = 0
+lifes = 3
 
-def update_hud(lifes, score):
+
+def update_hud():
+    global score, lifes
     font = pygame.font.Font(FONT, 60)
     score_text = font.render(f'Score: {score}', True, (255, 255, 255))
     lifes_text = font.render(f'Lifes: {lifes}', True, (255, 255, 255))
@@ -18,19 +22,6 @@ def update_hud(lifes, score):
 
 
 class Screen:
-    surface: pygame.Surface
-    all_sprites_group: pygame.sprite.Group
-    bricks_group: pygame.sprite.Group
-    ball: Ball
-    right_paddle: RightPaddle
-    left_paddle: LeftPaddle
-    right_object: RightObject
-    left_object: LeftObject
-    right_triangle: RightTriangle
-    left_triangle: LeftTriangle
-    lifes = int
-    score = 0
-
     def __init__(self, width, height, wallpaper, caption, lifes):
         self.width = width
         self.height = height
@@ -70,6 +61,7 @@ class Screen:
             pos_y += 50
 
     def update(self):
+        global score
         self.surface.blit(self.wallpaper, (0, 0))
         self.ball.collide_with_screen(self.width, self.height)
         self.ball.collide_with_right_paddle(self.right_paddle)
@@ -79,9 +71,9 @@ class Screen:
         self.ball.collide_with_right_triangle(self.right_triangle)
         self.ball.collide_with_left_triangle(self.left_triangle)
         brick_collision_list = pygame.sprite.spritecollide(self.ball, self.bricks_group, False)
-        self.ball.collide_with_brick(brick_collision_list)
+        score = self.ball.collide_with_brick(brick_collision_list, score)
         self.all_sprites_group.update()
         self.all_sprites_group.draw(self.surface)
-        (score_text, lifes_text) = update_hud(self.lifes, self.score)
+        (score_text, lifes_text) = update_hud()
         self.surface.blit(score_text, (SCORE_TEXT_POS_X, SCORE_TEXT_POS_Y))
         self.surface.blit(lifes_text, (LIFES_TEXT_POS_X, LIFES_TEXT_POS_Y))
