@@ -22,7 +22,7 @@ We hope you enjoy the game 😁
 
 The project is still in **progress**, you can find below the percentages completed for each section of issues:
 
-1. **Mechanics**: `0%` (0/5)
+1. **Mechanics**: `40%` (2/5)
 2. **Sprites**: `100%` (2/2)
 3. **Bugs**: `0%` (0/?)
 
